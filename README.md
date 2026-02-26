@@ -1,47 +1,44 @@
-# District-Level WASH Vulnerability Typology in Bangladesh (MICS 2019)
+# District-Level WASH Vulnerability Typology (Bangladesh, MICS 2019)
 
-This repository contains the materials for the undergraduate project report:
+This repository contains a single R Markdown workflow (`analysis.Rmd`) that produces a **district-level WASH vulnerability typology** for Bangladesh using **MICS 2019**. The analysis constructs district indicators for water, sanitation, hygiene, and a combined WASH measure, then applies and compares clustering approaches (including fuzzy clustering) and robustness checks.
 
-**District-Level WASH Vulnerability Typology in Bangladesh Using MICS 2019: A Comparative Clustering Analysis**  
-**Author:** Jokhrof Ahmed Doha (ISRT, University of Dhaka)  
-**Supervision:** Nasrin Lipi, Assistant Professor, ISRT  
-**Date:** March 2026
+## Repository contents
+- `analysis.Rmd` — complete end-to-end analysis (data → indicators → district aggregation → clustering → agreement measures → plots/maps)
+- `analysis.pdf` — knitted output / analysis report (generated from the Rmd)
+- `Final_project_report.pdf` — final written project report (PDF)
 
-## Project summary
-This study develops a **district-level WASH vulnerability typology** for Bangladesh using **MICS 2019** and compares **hard vs. fuzzy clustering** approaches to classify districts into vulnerability groups. The workflow constructs district profiles for **drinking water, sanitation, hygiene, and combined WASH**, then applies clustering and agreement checks to evaluate robustness and identify transitional (borderline) districts.
+## Data (not included)
+This project uses Bangladesh MICS 2019 microdata, which may be restricted.  
+You must obtain the data separately and place it where `analysis.Rmd` expects it (or edit the file paths inside the Rmd).
 
-## Data
-- **Source:** Bangladesh Multiple Indicator Cluster Survey (MICS) 2019 (nationally representative household survey).
-- **Unit of analysis:** District (64 districts).
-- **Weights:** Household sampling weights are applied to produce district-level weighted percentages.
+Typical MICS module files used in this workflow (examples):
+- Household (`hh.sav`)
+- Household listing (`hl.sav`)
+- Women (`wm.sav`)
+- Children (`ch.sav`)
+- (Optional) Field staff / facilities module if applicable (`fs.sav`)
 
-> **Note:** If you cannot share the raw microdata publicly, keep data out of the repo and document how to obtain it.
+> If your file names differ, just update the paths inside `analysis.Rmd`.
 
-## Indicators (district-level)
-The analysis uses four outcome indicators:
-1. Improved drinking-water service  
-2. Improved sanitation service  
-3. Basic handwashing service  
-4. Combined WASH service (meets water + sanitation + hygiene simultaneously)
+## Spatial files for maps (if you run mapping)
+If your Rmd produces maps, you will also need district boundary and name-matching resources (not always shareable).  
+Place them in the repo (e.g., `data/` or `shapefiles/`) and update paths in `analysis.Rmd` as needed.
 
-## Methods (high-level)
-- **Preprocessing**
-  - Construct household service-status indicators aligned to JMP/SDG service ladder concepts.
-  - Aggregate to district-level **weighted percentages**.
-  - Standardize indicators using **z-scores** before clustering.
+## Requirements
+- R (and RStudio recommended)
+- Common packages for this workflow may include: `rmarkdown`, `knitr`, `haven`, `dplyr`, `tidyr`, `ggplot2`, `cluster`, `factoextra`, `e1071`, and mapping packages such as `sf`/`readxl` (depending on your enabled sections).
 
-- **Clustering approaches**
-  - **Ward’s hierarchical clustering (Ward.D2)**
-  - **K-means**
-  - **Fuzzy c-means (FCM)** for soft membership and identifying borderline districts
+## How to run
+### Option A: Knit in RStudio (recommended)
+1. Open `analysis.Rmd` in RStudio
+2. Set the working directory to the repository folder
+3. Click **Knit**
 
-- **Choosing number of clusters**
-  - **Gap statistic** with the **1-SE rule** (tested for both K-means and FCM)
+### Option B: Render from R
 
-- **Robustness / agreement**
-  - **Adjusted Rand Index (ARI)**
-  - **Normalized Mutual Information (NMI)**
+## Citation
+If you use this repository, please cite the associated project report:
 
-- **Mapping**
-  - District maps showing vulnerability groups and, for FCM, membership strength and ambiguity/transitional districts.
-
+> Doha, J. A. (2026). *District-Level WASH Vulnerability Typology in Bangladesh Using MICS 2019: A Comparative Clustering Analysis.* ISRT, University of Dhaka.
+```r
+rmarkdown::render("analysis.Rmd")
